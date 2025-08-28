@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sipariş Sistemi - Gerçek Bildirimli</title>
+    <title>Gerçek Bildirimli Sipariş Sistemi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #4a2c2a;
             --secondary: #8B4513;
+            --accent: #d2691e;
+            --light: #f9f9f9;
+            --dark: #333;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #f44336;
             --tea: #C8E6C9;
             --coffee: #D7CCC8;
             --food: #FFECB3;
             --shadow: 0 4px 6px rgba(0,0,0,0.1);
-            --success: #4CAF50;
-            --error: #f44336;
+            --radius: 12px;
         }
         
         * {
@@ -26,46 +31,68 @@
         
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            color: #333;
+            color: var(--dark);
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
-            padding: 25px;
+            padding: 30px;
             background: white;
-            border-radius: 15px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
             position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--tea), var(--coffee), var(--food));
         }
         
         h1 {
             color: var(--primary);
             margin-bottom: 10px;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
         }
         
         .logo {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 3rem;
+            margin-bottom: 20px;
             color: var(--primary);
+        }
+        
+        .logo i {
+            margin: 0 10px;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
         
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .content {
                 grid-template-columns: 1fr;
             }
@@ -73,14 +100,25 @@
         
         .card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: var(--radius);
             box-shadow: var(--shadow);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .form-group {
@@ -90,23 +128,23 @@
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 500;
-            color: #555;
+            font-weight: 600;
+            color: var(--dark);
         }
         
         input, select, textarea {
             width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
             border-radius: 8px;
             font-size: 16px;
             transition: border 0.3s;
         }
         
         input:focus, select:focus, textarea:focus {
-            border-color: var(--primary);
+            border-color: var(--accent);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(74, 44, 42, 0.2);
+            box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.2);
         }
         
         .btn-group {
@@ -117,7 +155,7 @@
         
         button {
             flex: 1;
-            padding: 14px;
+            padding: 16px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -146,14 +184,14 @@
         }
         
         .submit-btn {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             width: 100%;
-            padding: 16px;
+            padding: 18px;
         }
         
         .notification-btn {
-            background-color: var(--secondary);
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
             color: white;
             width: 100%;
             margin-top: 15px;
@@ -163,6 +201,10 @@
             opacity: 0.9;
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
         }
         
         button.active {
@@ -178,7 +220,7 @@
         }
         
         .order-item {
-            padding: 18px;
+            padding: 20px;
             border-radius: 10px;
             margin-bottom: 15px;
             display: flex;
@@ -186,6 +228,7 @@
             align-items: center;
             animation: fadeIn 0.5s;
             transition: transform 0.2s;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.05);
         }
         
         .order-item:hover {
@@ -239,7 +282,7 @@
         }
         
         .notification {
-            padding: 18px;
+            padding: 20px;
             background: #E3F2FD;
             border-radius: 10px;
             margin-bottom: 15px;
@@ -270,28 +313,31 @@
         }
         
         .clear-btn {
-            background-color: var(--error);
+            background: linear-gradient(135deg, var(--error), #d32f2f);
             color: white;
             margin-top: 10px;
-            padding: 12px 20px;
+            padding: 14px 20px;
         }
         
         .status {
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
             margin: 15px 0;
             font-weight: 500;
+            animation: fadeIn 0.5s;
         }
         
         .status.success {
             background: #E8F5E9;
             color: var(--success);
+            border-left: 4px solid var(--success);
         }
         
         .status.error {
             background: #FFEBEE;
             color: var(--error);
+            border-left: 4px solid var(--error);
         }
         
         .permission-box {
@@ -302,17 +348,9 @@
             border-left: 5px solid #FFC107;
         }
         
-        .notification-info {
-            margin-top: 30px;
-            padding: 20px;
-            background: #E1F5FE;
-            border-radius: 10px;
-            border-left: 5px solid #03A9F4;
-        }
-        
         .instructions {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 30px;
+            padding: 25px;
             background: #f8f9fa;
             border-radius: 10px;
             border-left: 5px solid #6c757d;
@@ -320,7 +358,10 @@
         
         .instructions h3 {
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .instructions ol {
@@ -328,7 +369,63 @@
         }
         
         .instructions li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .notification-info {
+            margin-top: 30px;
+            padding: 25px;
+            background: #E1F5FE;
+            border-radius: 10px;
+            border-left: 5px solid #03A9F4;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .badge-error {
+            background: var(--error);
+            color: white;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .test-btn {
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
         }
     </style>
 </head>
@@ -341,12 +438,12 @@
                 <i class="fas fa-bell"></i>
             </div>
             <h1>Gerçek Bildirimli Sipariş Sistemi</h1>
-            <p>Sipariş verin, tarayıcı bildirimi olarak gelsin!</p>
+            <p class="subtitle">Sipariş verin, tarayıcı bildirimi olarak gelsin!</p>
         </header>
         
         <div class="content">
             <section class="card">
-                <h2><i class="fas fa-concierge-bell"></i> Sipariş Ver</h2>
+                <h2 class="card-title"><i class="fas fa-concierge-bell"></i> Sipariş Ver</h2>
                 <div class="form-group">
                     <label for="name">İsim:</label>
                     <input type="text" id="name" placeholder="Adınızı girin">
@@ -385,18 +482,25 @@
                 <div class="permission-box">
                     <h3><i class="fas fa-info-circle"></i> Bildirim İzni</h3>
                     <p>Telefonunuza bildirim gönderebilmek için lütfen bildirim iznini etkinleştirin.</p>
+                    <p id="permissionStatus">Durum: <span class="badge badge-warning">Beklemede</span></p>
+                </div>
+                
+                <div class="test-buttons">
+                    <button class="test-btn" onclick="testNotification('çay')">Çay Bildirimi Test Et</button>
+                    <button class="test-btn" onclick="testNotification('kahve')">Kahve Bildirimi Test Et</button>
+                    <button class="test-btn" onclick="testNotification('yemek')">Yemek Bildirimi Test Et</button>
                 </div>
             </section>
             
             <section class="card">
-                <h2><i class="fas fa-history"></i> Son Siparişler</h2>
+                <h2 class="card-title"><i class="fas fa-history"></i> Son Siparişler</h2>
                 <div class="orders-list" id="ordersList">
                     <!-- Siparişler buraya dinamik olarak eklenecek -->
                 </div>
             </section>
             
             <section class="card notification-section">
-                <h2><i class="fas fa-bell"></i> Bildirim Geçmişi</h2>
+                <h2 class="card-title"><i class="fas fa-bell"></i> Bildirim Geçmişi</h2>
                 <div id="notifications">
                     <!-- Bildirimler buraya eklenecek -->
                 </div>
@@ -414,13 +518,19 @@
                 <li>Sipariş bilgilerinizi girin ve sipariş türünü seçin</li>
                 <li>"Siparişi Gönder" butonuna tıklayın</li>
                 <li>Telefonunuza veya bilgisayarınıza gerçek zamanlı bildirim gelecektir</li>
+                <li>Test butonları ile bildirim sistemini test edebilirsiniz</li>
             </ol>
         </div>
         
         <div class="notification-info">
             <h3><i class="fas fa-mobile-alt"></i> Telefon Bildirimleri</h3>
             <p>Mobil cihazınızda bu web sitesini açtıysanız ve bildirim izni verdiyseniz, siparişler telefonunuza gerçek bildirim olarak gelecektir.</p>
+            <p><strong>Not:</strong> Bildirimlerin çalışması için HTTPS bağlantısı gereklidir. Localhost'ta test ederken sorun yaşamazsınız.</p>
         </div>
+        
+        <footer>
+            <p>© 2023 Gerçek Bildirimli Sipariş Sistemi | Tüm hakları saklıdır.</p>
+        </footer>
     </div>
 
     <script>
@@ -437,16 +547,34 @@
             
             // Örnek siparişleri göster
             addExampleOrders();
+            
+            // Service Worker'ı kaydet
+            registerServiceWorker();
         };
+        
+        // Service Worker kaydı
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }).catch(function(error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+            }
+        }
         
         // Bildirim iznini kontrol etme
         function checkNotificationPermission() {
             if ('Notification' in window) {
                 if (Notification.permission === 'granted') {
                     notificationPermission = true;
+                    document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-success">İzin Verildi</span>';
                     showStatus('Bildirim izni zaten verilmiş', 'success');
                 } else if (Notification.permission === 'denied') {
+                    document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-error">İzin Reddedildi</span>';
                     showStatus('Bildirim izni reddedilmiş. Lütfen tarayıcı ayarlarından izin verin.', 'error');
+                } else {
+                    document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-warning">Beklemede</span>';
                 }
             } else {
                 showStatus('Bu tarayıcı bildirimleri desteklemiyor', 'error');
@@ -459,11 +587,13 @@
                 Notification.requestPermission().then(function(permission) {
                     if (permission === 'granted') {
                         notificationPermission = true;
+                        document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-success">İzin Verildi</span>';
                         showStatus('Bildirim izni verildi!', 'success');
                         
                         // İzin verildiğinde test bildirimi gönder
                         sendNotification('Bildirim Sistemi', 'Bildirimler artık etkin! Siparişleriniz bildirim olarak gelecek.');
                     } else {
+                        document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-error">İzin Reddedildi</span>';
                         showStatus('Bildirim izni verilmedi', 'error');
                     }
                 });
@@ -478,11 +608,13 @@
                 const options = {
                     body: message,
                     icon: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png',
-                    badge: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png'
+                    badge: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png',
+                    vibrate: [200, 100, 200],
+                    tag: 'siparis-bildirimi'
                 };
                 
                 if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    navigator.serviceWorker.ready.then(function(registration) {
                         registration.showNotification(title, options);
                     });
                 } else {
@@ -491,7 +623,37 @@
                 
                 // Bildirim geçmişine ekle
                 createNotification(message, new Date().toLocaleTimeString('tr-TR'));
+            } else {
+                showStatus('Bildirim göndermek için önce izin vermelisiniz', 'error');
             }
+        }
+        
+        // Test bildirimi gönderme
+        function testNotification(type) {
+            if (!notificationPermission) {
+                showStatus('Önce bildirim izni vermelisiniz', 'error');
+                return;
+            }
+            
+            let title, message;
+            
+            switch(type) {
+                case 'çay':
+                    title = 'Çay Siparişi';
+                    message = '2 adet Türk çayı siparişi verildi. Hazırlanıyor...';
+                    break;
+                case 'kahve':
+                    title = 'Kahve Siparişi';
+                    message = '1 adet Türk kahvesi siparişi verildi. Hazırlanıyor...';
+                    break;
+                case 'yemek':
+                    title = 'Yemek Siparişi';
+                    message = '1 adet tost siparişi verildi. Hazırlanıyor...';
+                    break;
+            }
+            
+            sendNotification(title, message);
+            showStatus('Test bildirimi gönderildi: ' + type, 'success');
         }
         
         function selectType(type) {
@@ -609,6 +771,7 @@
         function clearNotifications() {
             const notificationsContainer = document.getElementById('notifications');
             notificationsContainer.innerHTML = '';
+            showStatus('Bildirim geçmişi temizlendi', 'success');
         }
         
         function saveOrder(order) {
@@ -645,20 +808,28 @@
             if (ordersList.children.length === 0) {
                 const examples = [
                     {
-                        name: "Ahmet",
+                        name: "Ahmet Yılmaz",
                         phone: "5551234567",
                         type: "çay",
-                        details: "",
+                        details: "2 adet Türk çayı",
                         date: "26.08.2023",
                         time: "10:30"
                     },
                     {
-                        name: "Ayşe",
+                        name: "Ayşe Demir",
                         phone: "5557654321",
                         type: "kahve",
-                        details: "Türk kahvesi",
+                        details: "Türk kahvesi, orta şekerli",
                         date: "26.08.2023",
                         time: "11:15"
+                    },
+                    {
+                        name: "Mehmet Kaya",
+                        phone: "5559876543",
+                        type: "yemek",
+                        details: "Kaşarlı tost, ayran",
+                        date: "26.08.2023",
+                        time: "12:45"
                     }
                 ];
                 
