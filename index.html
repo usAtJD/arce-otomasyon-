@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sipariş Sistemi - Telefon Bildirimli</title>
+    <title>Sipariş Sistemi - Gerçek Bildirimli</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #4a2c2a;
+            --secondary: #8B4513;
             --tea: #C8E6C9;
             --coffee: #D7CCC8;
             --food: #FFECB3;
             --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --success: #4CAF50;
+            --error: #f44336;
         }
         
         * {
@@ -149,6 +152,13 @@
             padding: 16px;
         }
         
+        .notification-btn {
+            background-color: var(--secondary);
+            color: white;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
         button:hover {
             opacity: 0.9;
             transform: translateY(-2px);
@@ -260,7 +270,7 @@
         }
         
         .clear-btn {
-            background-color: #f44336;
+            background-color: var(--error);
             color: white;
             margin-top: 10px;
             padding: 12px 20px;
@@ -276,186 +286,49 @@
         
         .status.success {
             background: #E8F5E9;
-            color: #2E7D32;
+            color: var(--success);
         }
         
         .status.error {
             background: #FFEBEE;
-            color: #C62828;
+            color: var(--error);
         }
         
-        /* Telefon Bildirim Simülasyonu */
-        .phone-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 320px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            z-index: 1000;
-            overflow: hidden;
-            animation: slideInRight 0.5s, fadeOut 0.5s 4.5s forwards;
-            display: none;
-            border: 1px solid #e0e0e0;
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; display: none; }
-        }
-        
-        .notification-header {
-            padding: 15px 20px;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notification-body {
+        .permission-box {
+            background: #FFF8E1;
+            border-radius: 10px;
             padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid #FFC107;
         }
         
-        .notification-item {
-            margin-bottom: 10px;
-            display: flex;
-        }
-        
-        .notification-label {
-            font-weight: bold;
-            min-width: 80px;
-            color: #555;
-        }
-        
-        .notification-value {
-            flex-grow: 1;
-        }
-        
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .phone-icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            color: var(--primary);
-        }
-        
-        /* Telefon simülasyonu için ek stiller */
-        .phone-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-        }
-        
-        .phone {
-            width: 300px;
-            height: 600px;
-            background: #222;
-            border-radius: 40px;
+        .notification-info {
+            margin-top: 30px;
             padding: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            position: relative;
-            border: 4px solid #444;
+            background: #E1F5FE;
+            border-radius: 10px;
+            border-left: 5px solid #03A9F4;
         }
         
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background: #111;
-            border-radius: 30px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .phone-status-bar {
-            height: 25px;
-            background: #000;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 15px;
-            align-items: center;
-            font-size: 12px;
-        }
-        
-        .phone-notification-list {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 10px;
-            background: #222;
-        }
-        
-        .phone-notification-item {
-            background: #1c1c1e;
-            border-radius: 12px;
+        .instructions {
+            margin-top: 20px;
             padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #6c757d;
+        }
+        
+        .instructions h3 {
+            color: var(--primary);
             margin-bottom: 10px;
-            color: white;
-            font-size: 14px;
         }
         
-        .phone-notification-app {
-            font-weight: bold;
-            color: #8e8e93;
-            margin-bottom: 5px;
+        .instructions ol {
+            padding-left: 20px;
         }
         
-        .phone-notification-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-        
-        .phone-notification-content {
-            color: #8e8e93;
-        }
-        
-        .phone-home-button {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: #333;
-            border-radius: 50%;
-            border: 2px solid #555;
-        }
-        
-        .toggle-phone {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-weight: bold;
+        .instructions li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -467,9 +340,8 @@
                 <i class="fas fa-utensils"></i>
                 <i class="fas fa-bell"></i>
             </div>
-            <h1>Telefon Bildirimli Sipariş Sistemi</h1>
-            <p>Sipariş verin, telefon bildirimi olarak gösterilsin!</p>
-            <i class="fas fa-mobile-alt phone-icon"></i>
+            <h1>Gerçek Bildirimli Sipariş Sistemi</h1>
+            <p>Sipariş verin, tarayıcı bildirimi olarak gelsin!</p>
         </header>
         
         <div class="content">
@@ -505,6 +377,15 @@
                 <button class="submit-btn" onclick="addOrder()">
                     <i class="fas fa-paper-plane"></i> Siparişi Gönder
                 </button>
+                
+                <button class="notification-btn" onclick="requestNotificationPermission()">
+                    <i class="fas fa-bell"></i> Bildirim İzni İste
+                </button>
+                
+                <div class="permission-box">
+                    <h3><i class="fas fa-info-circle"></i> Bildirim İzni</h3>
+                    <p>Telefonunuza bildirim gönderebilmek için lütfen bildirim iznini etkinleştirin.</p>
+                </div>
             </section>
             
             <section class="card">
@@ -525,58 +406,93 @@
                 </button>
             </section>
         </div>
-    </div>
-
-    <!-- Telefon Bildirim Kutusu -->
-    <div class="phone-notification" id="phoneNotification">
-        <div class="notification-header">
-            <span><i class="fas fa-bell"></i> Yeni Sipariş!</span>
-            <button class="notification-close" onclick="closeNotification()">
-                <i class="fas fa-times"></i>
-            </button>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-question-circle"></i> Nasıl Çalışır?</h3>
+            <ol>
+                <li>"Bildirim İzni İste" butonuna tıklayarak tarayıcı bildirimlerine izin verin</li>
+                <li>Sipariş bilgilerinizi girin ve sipariş türünü seçin</li>
+                <li>"Siparişi Gönder" butonuna tıklayın</li>
+                <li>Telefonunuza veya bilgisayarınıza gerçek zamanlı bildirim gelecektir</li>
+            </ol>
         </div>
-        <div class="notification-body" id="notificationBody">
-            <!-- Bildirim içeriği buraya eklenecek -->
-        </div>
-    </div>
-
-    <!-- Telefon Simülasyonu -->
-    <div class="phone-container">
-        <button class="toggle-phone" onclick="togglePhone()">Telefonu Gizle</button>
-        <div class="phone" id="phoneSimulation">
-            <div class="phone-screen">
-                <div class="phone-status-bar">
-                    <span>19:30</span>
-                    <span>
-                        <i class="fas fa-signal"></i>
-                        <i class="fas fa-wifi"></i>
-                        <i class="fas fa-battery-full"></i>
-                    </span>
-                </div>
-                <div class="phone-notification-list" id="phoneNotificationList">
-                    <div class="phone-notification-item">
-                        <div class="phone-notification-app">Sipariş Sistemi</div>
-                        <div class="phone-notification-title">Hoş Geldiniz</div>
-                        <div class="phone-notification-content">Sipariş bildirimleri burada görünecek</div>
-                    </div>
-                </div>
-                <div class="phone-home-button"></div>
-            </div>
+        
+        <div class="notification-info">
+            <h3><i class="fas fa-mobile-alt"></i> Telefon Bildirimleri</h3>
+            <p>Mobil cihazınızda bu web sitesini açtıysanız ve bildirim izni verdiyseniz, siparişler telefonunuza gerçek bildirim olarak gelecektir.</p>
         </div>
     </div>
 
     <script>
         let selectedType = '';
-        let phoneVisible = true;
+        let notificationPermission = false;
         
         // Sayfa yüklendiğinde
         window.onload = function() {
+            // Bildirim iznini kontrol et
+            checkNotificationPermission();
+            
             // Kaydedilmiş siparişleri yükle
             loadOrders();
             
             // Örnek siparişleri göster
             addExampleOrders();
         };
+        
+        // Bildirim iznini kontrol etme
+        function checkNotificationPermission() {
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    notificationPermission = true;
+                    showStatus('Bildirim izni zaten verilmiş', 'success');
+                } else if (Notification.permission === 'denied') {
+                    showStatus('Bildirim izni reddedilmiş. Lütfen tarayıcı ayarlarından izin verin.', 'error');
+                }
+            } else {
+                showStatus('Bu tarayıcı bildirimleri desteklemiyor', 'error');
+            }
+        }
+        
+        // Bildirim izni isteme
+        function requestNotificationPermission() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        notificationPermission = true;
+                        showStatus('Bildirim izni verildi!', 'success');
+                        
+                        // İzin verildiğinde test bildirimi gönder
+                        sendNotification('Bildirim Sistemi', 'Bildirimler artık etkin! Siparişleriniz bildirim olarak gelecek.');
+                    } else {
+                        showStatus('Bildirim izni verilmedi', 'error');
+                    }
+                });
+            } else {
+                showStatus('Bu tarayıcı bildirimleri desteklemiyor', 'error');
+            }
+        }
+        
+        // Bildirim gönderme
+        function sendNotification(title, message) {
+            if (notificationPermission) {
+                const options = {
+                    body: message,
+                    icon: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png',
+                    badge: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png'
+                };
+                
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('sw.js').then(function(registration) {
+                        registration.showNotification(title, options);
+                    });
+                } else {
+                    new Notification(title, options);
+                }
+                
+                // Bildirim geçmişine ekle
+                createNotification(message, new Date().toLocaleTimeString('tr-TR'));
+            }
+        }
         
         function selectType(type) {
             selectedType = type;
@@ -625,8 +541,9 @@
             // Siparişleri localStorage'a kaydet
             saveOrder(order);
             
-            // Telefon bildirimi göster
-            showPhoneNotification(order);
+            // Bildirim gönder
+            const notificationMessage = `${name} ${details || selectedType} siparişi verdi. (${phone})`;
+            sendNotification('Yeni Sipariş!', notificationMessage);
             
             // Formu temizle
             document.getElementById('name').value = '';
@@ -637,6 +554,8 @@
             document.querySelectorAll('.btn-group button').forEach(btn => {
                 btn.classList.remove('active');
             });
+            
+            showStatus('Siparişiniz gönderildi ve bildirim olarak iletildi!', 'success');
         }
         
         function addOrderToList(order) {
@@ -749,85 +668,6 @@
             }
         }
         
-        function showPhoneNotification(order) {
-            const notification = document.getElementById('phoneNotification');
-            const notificationBody = document.getElementById('notificationBody');
-            
-            // Bildirim içeriğini oluştur
-            let icon = '';
-            if (order.type === 'çay') {
-                icon = '<i class="fas fa-mug-hot" style="color: #2E7D32;"></i>';
-            } else if (order.type === 'kahve') {
-                icon = '<i class="fas fa-coffee" style="color: #4E342E;"></i>';
-            } else if (order.type === 'yemek') {
-                icon = '<i class="fas fa-utensils" style="color: #F57F17;"></i>';
-            }
-            
-            notificationBody.innerHTML = `
-                <div class="notification-item">
-                    <span class="notification-label">Müşteri:</span>
-                    <span class="notification-value">${order.name}</span>
-                </div>
-                <div class="notification-item">
-                    <span class="notification-label">Telefon:</span>
-                    <span class="notification-value">${order.phone}</span>
-                </div>
-                <div class="notification-item">
-                    <span class="notification-label">Sipariş:</span>
-                    <span class="notification-value">${icon} ${order.details || order.type}</span>
-                </div>
-                <div class="notification-item">
-                    <span class="notification-label">Zaman:</span>
-                    <span class="notification-value">${order.date} ${order.time}</span>
-                </div>
-            `;
-            
-            // Telefon bildirim listesine ekle
-            addToPhoneNotificationList(order);
-            
-            // Bildirimi göster
-            notification.style.display = 'block';
-            
-            // Bildirimi bildirim geçmişine ekle
-            const now = new Date();
-            const time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-            const date = now.toLocaleDateString('tr-TR');
-            createNotification(`${order.name} ${order.details || order.type} siparişi verdi.`, `${date} ${time}`);
-            
-            // 5 saniye sonra bildirimi otomatik kapat
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 5000);
-        }
-        
-        function addToPhoneNotificationList(order) {
-            const phoneNotificationList = document.getElementById('phoneNotificationList');
-            const notificationItem = document.createElement('div');
-            notificationItem.className = 'phone-notification-item';
-            
-            let orderText = '';
-            if (order.type === 'çay') {
-                orderText = 'Çay Siparişi';
-            } else if (order.type === 'kahve') {
-                orderText = 'Kahve Siparişi';
-            } else if (order.type === 'yemek') {
-                orderText = 'Yemek Siparişi';
-            }
-            
-            notificationItem.innerHTML = `
-                <div class="phone-notification-app">Sipariş Sistemi</div>
-                <div class="phone-notification-title">${order.name}</div>
-                <div class="phone-notification-content">${order.details || orderText} - ${order.time}</div>
-            `;
-            
-            phoneNotificationList.prepend(notificationItem);
-        }
-        
-        function closeNotification() {
-            const notification = document.getElementById('phoneNotification');
-            notification.style.display = 'none';
-        }
-        
         function showStatus(message, type) {
             // Önceki durum mesajlarını temizle
             const existingStatus = document.querySelector('.status');
@@ -844,25 +684,10 @@
             const form = document.querySelector('.card');
             form.appendChild(status);
             
-            // 3 saniye sonra kaldır
+            // 5 saniye sonra kaldır
             setTimeout(() => {
                 status.remove();
-            }, 3000);
-        }
-        
-        function togglePhone() {
-            const phone = document.getElementById('phoneSimulation');
-            const toggleBtn = document.querySelector('.toggle-phone');
-            
-            if (phoneVisible) {
-                phone.style.display = 'none';
-                toggleBtn.textContent = 'Telefonu Göster';
-                phoneVisible = false;
-            } else {
-                phone.style.display = 'block';
-                toggleBtn.textContent = 'Telefonu Gizle';
-                phoneVisible = true;
-            }
+            }, 5000);
         }
     </script>
 </body>
