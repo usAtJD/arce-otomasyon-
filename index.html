@@ -1,865 +1,126 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerçek Bildirimli Sipariş Sistemi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4a2c2a;
-            --secondary: #8B4513;
-            --accent: #d2691e;
-            --light: #f9f9f9;
-            --dark: #333;
-            --success: #4CAF50;
-            --warning: #FF9800;
-            --error: #f44336;
-            --tea: #C8E6C9;
-            --coffee: #D7CCC8;
-            --food: #FFECB3;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
-            --radius: 12px;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 30px;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--tea), var(--coffee), var(--food));
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-        
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-        
-        .logo i {
-            margin: 0 10px;
-        }
-        
-        .subtitle {
-            color: var(--secondary);
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-        
-        @media (max-width: 992px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
-        
-        .card-title {
-            color: var(--primary);
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.2);
-        }
-        
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin: 25px 0;
-        }
-        
-        button {
-            flex: 1;
-            padding: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .tea-btn {
-            background-color: var(--tea);
-            color: #2E7D32;
-        }
-        
-        .coffee-btn {
-            background-color: var(--coffee);
-            color: #4E342E;
-        }
-        
-        .food-btn {
-            background-color: var(--food);
-            color: #F57F17;
-        }
-        
-        .submit-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            width: 100%;
-            padding: 18px;
-        }
-        
-        .notification-btn {
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            color: white;
-            width: 100%;
-            margin-top: 15px;
-        }
-        
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        button.active {
-            transform: translateY(0);
-            box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
-        }
-        
-        .orders-list {
-            margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .order-item {
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: fadeIn 0.5s;
-            transition: transform 0.2s;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.05);
-        }
-        
-        .order-item:hover {
-            transform: scale(1.02);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .tea-order {
-            background-color: var(--tea);
-            border-left: 5px solid #2E7D32;
-        }
-        
-        .coffee-order {
-            background-color: var(--coffee);
-            border-left: 5px solid #4E342E;
-        }
-        
-        .food-order {
-            background-color: var(--food);
-            border-left: 5px solid #F57F17;
-        }
-        
-        .order-info {
-            flex-grow: 1;
-        }
-        
-        .order-name {
-            font-weight: bold;
-            font-size: 18px;
-            color: #333;
-        }
-        
-        .order-type {
-            font-size: 15px;
-            opacity: 0.9;
-            margin: 5px 0;
-        }
-        
-        .order-time {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-        
-        .notification-section {
-            margin-top: 25px;
-            grid-column: 1 / -1;
-        }
-        
-        .notification {
-            padding: 20px;
-            background: #E3F2FD;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 5px solid #2196F3;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: slideIn 0.5s;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .notification-icon {
-            font-size: 24px;
-            color: #2196F3;
-        }
-        
-        .notification-content {
-            flex-grow: 1;
-        }
-        
-        .notification-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .clear-btn {
-            background: linear-gradient(135deg, var(--error), #d32f2f);
-            color: white;
-            margin-top: 10px;
-            padding: 14px 20px;
-        }
-        
-        .status {
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 15px 0;
-            font-weight: 500;
-            animation: fadeIn 0.5s;
-        }
-        
-        .status.success {
-            background: #E8F5E9;
-            color: var(--success);
-            border-left: 4px solid var(--success);
-        }
-        
-        .status.error {
-            background: #FFEBEE;
-            color: var(--error);
-            border-left: 4px solid var(--error);
-        }
-        
-        .permission-box {
-            background: #FFF8E1;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            border-left: 5px solid #FFC107;
-        }
-        
-        .instructions {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 5px solid #6c757d;
-        }
-        
-        .instructions h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .instructions ol {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 12px;
-            line-height: 1.6;
-        }
-        
-        .notification-info {
-            margin-top: 30px;
-            padding: 25px;
-            background: #E1F5FE;
-            border-radius: 10px;
-            border-left: 5px solid #03A9F4;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .badge-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .badge-warning {
-            background: var(--warning);
-            color: white;
-        }
-        
-        .badge-error {
-            background: var(--error);
-            color: white;
-        }
-        
-        .test-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .test-btn {
-            padding: 12px 20px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akıllı Kapı Sistemi Kontrolü</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .status-box {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+  }
+  .input-group {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+  }
+  input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #218838;
+  }
+  a {
+    display: block;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-coffee"></i>
-                <i class="fas fa-utensils"></i>
-                <i class="fas fa-bell"></i>
-            </div>
-            <h1>Gerçek Bildirimli Sipariş Sistemi</h1>
-            <p class="subtitle">Sipariş verin, tarayıcı bildirimi olarak gelsin!</p>
-        </header>
-        
-        <div class="content">
-            <section class="card">
-                <h2 class="card-title"><i class="fas fa-concierge-bell"></i> Sipariş Ver</h2>
-                <div class="form-group">
-                    <label for="name">İsim:</label>
-                    <input type="text" id="name" placeholder="Adınızı girin">
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">Telefonunuz:</label>
-                    <input type="text" id="phone" placeholder="Telefon numaranız">
-                </div>
-                
-                <div class="btn-group">
-                    <button class="tea-btn" onclick="selectType('çay')">
-                        <i class="fas fa-mug-hot"></i> Çay
-                    </button>
-                    <button class="coffee-btn" onclick="selectType('kahve')">
-                        <i class="fas fa-coffee"></i> Kahve
-                    </button>
-                    <button class="food-btn" onclick="selectType('yemek')">
-                        <i class="fas fa-utensils"></i> Yemek
-                    </button>
-                </div>
-                
-                <div class="form-group">
-                    <label for="details">Detaylar:</label>
-                    <input type="text" id="details" placeholder="Örneğin: Türk kahvesi, tost, vs.">
-                </div>
-                
-                <button class="submit-btn" onclick="addOrder()">
-                    <i class="fas fa-paper-plane"></i> Siparişi Gönder
-                </button>
-                
-                <button class="notification-btn" onclick="requestNotificationPermission()">
-                    <i class="fas fa-bell"></i> Bildirim İzni İste
-                </button>
-                
-                <div class="permission-box">
-                    <h3><i class="fas fa-info-circle"></i> Bildirim İzni</h3>
-                    <p>Telefonunuza bildirim gönderebilmek için lütfen bildirim iznini etkinleştirin.</p>
-                    <p id="permissionStatus">Durum: <span class="badge badge-warning">Beklemede</span></p>
-                </div>
-                
-                <div class="test-buttons">
-                    <button class="test-btn" onclick="testNotification('çay')">Çay Bildirimi Test Et</button>
-                    <button class="test-btn" onclick="testNotification('kahve')">Kahve Bildirimi Test Et</button>
-                    <button class="test-btn" onclick="testNotification('yemek')">Yemek Bildirimi Test Et</button>
-                </div>
-            </section>
-            
-            <section class="card">
-                <h2 class="card-title"><i class="fas fa-history"></i> Son Siparişler</h2>
-                <div class="orders-list" id="ordersList">
-                    <!-- Siparişler buraya dinamik olarak eklenecek -->
-                </div>
-            </section>
-            
-            <section class="card notification-section">
-                <h2 class="card-title"><i class="fas fa-bell"></i> Bildirim Geçmişi</h2>
-                <div id="notifications">
-                    <!-- Bildirimler buraya eklenecek -->
-                </div>
-                
-                <button class="clear-btn" onclick="clearNotifications()">
-                    <i class="fas fa-trash"></i> Bildirimleri Temizle
-                </button>
-            </section>
-        </div>
-        
-        <div class="instructions">
-            <h3><i class="fas fa-question-circle"></i> Nasıl Çalışır?</h3>
-            <ol>
-                <li>"Bildirim İzni İste" butonuna tıklayarak tarayıcı bildirimlerine izin verin</li>
-                <li>Sipariş bilgilerinizi girin ve sipariş türünü seçin</li>
-                <li>"Siparişi Gönder" butonuna tıklayın</li>
-                <li>Telefonunuza veya bilgisayarınıza gerçek zamanlı bildirim gelecektir</li>
-                <li>Test butonları ile bildirim sistemini test edebilirsiniz</li>
-            </ol>
-        </div>
-        
-        <div class="notification-info">
-            <h3><i class="fas fa-mobile-alt"></i> Telefon Bildirimleri</h3>
-            <p>Mobil cihazınızda bu web sitesini açtıysanız ve bildirim izni verdiyseniz, siparişler telefonunuza gerçek bildirim olarak gelecektir.</p>
-            <p><strong>Not:</strong> Bildirimlerin çalışması için HTTPS bağlantısı gereklidir. Localhost'ta test ederken sorun yaşamazsınız.</p>
-        </div>
-        
-        <footer>
-            <p>© 2023 Gerçek Bildirimli Sipariş Sistemi | Tüm hakları saklıdır.</p>
-        </footer>
-    </div>
 
-    <script>
-        let selectedType = '';
-        let notificationPermission = false;
-        
-        // Sayfa yüklendiğinde
-        window.onload = function() {
-            // Bildirim iznini kontrol et
-            checkNotificationPermission();
-            
-            // Kaydedilmiş siparişleri yükle
-            loadOrders();
-            
-            // Örnek siparişleri göster
-            addExampleOrders();
-            
-            // Service Worker'ı kaydet
-            registerServiceWorker();
-        };
-        
-        // Service Worker kaydı
-        function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                }).catch(function(error) {
-                    console.log('Service Worker registration failed:', error);
-                });
-            }
-        }
-        
-        // Bildirim iznini kontrol etme
-        function checkNotificationPermission() {
-            if ('Notification' in window) {
-                if (Notification.permission === 'granted') {
-                    notificationPermission = true;
-                    document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-success">İzin Verildi</span>';
-                    showStatus('Bildirim izni zaten verilmiş', 'success');
-                } else if (Notification.permission === 'denied') {
-                    document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-error">İzin Reddedildi</span>';
-                    showStatus('Bildirim izni reddedilmiş. Lütfen tarayıcı ayarlarından izin verin.', 'error');
-                } else {
-                    document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-warning">Beklemede</span>';
-                }
-            } else {
-                showStatus('Bu tarayıcı bildirimleri desteklemiyor', 'error');
-            }
-        }
-        
-        // Bildirim izni isteme
-        function requestNotificationPermission() {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(function(permission) {
-                    if (permission === 'granted') {
-                        notificationPermission = true;
-                        document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-success">İzin Verildi</span>';
-                        showStatus('Bildirim izni verildi!', 'success');
-                        
-                        // İzin verildiğinde test bildirimi gönder
-                        sendNotification('Bildirim Sistemi', 'Bildirimler artık etkin! Siparişleriniz bildirim olarak gelecek.');
-                    } else {
-                        document.getElementById('permissionStatus').innerHTML = 'Durum: <span class="badge badge-error">İzin Reddedildi</span>';
-                        showStatus('Bildirim izni verilmedi', 'error');
-                    }
-                });
-            } else {
-                showStatus('Bu tarayıcı bildirimleri desteklemiyor', 'error');
-            }
-        }
-        
-        // Bildirim gönderme
-        function sendNotification(title, message) {
-            if (notificationPermission) {
-                const options = {
-                    body: message,
-                    icon: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png',
-                    badge: 'https://cdn-icons-png.flaticon.com/512/2917/2917637.png',
-                    vibrate: [200, 100, 200],
-                    tag: 'siparis-bildirimi'
-                };
-                
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.ready.then(function(registration) {
-                        registration.showNotification(title, options);
-                    });
-                } else {
-                    new Notification(title, options);
-                }
-                
-                // Bildirim geçmişine ekle
-                createNotification(message, new Date().toLocaleTimeString('tr-TR'));
-            } else {
-                showStatus('Bildirim göndermek için önce izin vermelisiniz', 'error');
-            }
-        }
-        
-        // Test bildirimi gönderme
-        function testNotification(type) {
-            if (!notificationPermission) {
-                showStatus('Önce bildirim izni vermelisiniz', 'error');
-                return;
-            }
-            
-            let title, message;
-            
-            switch(type) {
-                case 'çay':
-                    title = 'Çay Siparişi';
-                    message = '2 adet Türk çayı siparişi verildi. Hazırlanıyor...';
-                    break;
-                case 'kahve':
-                    title = 'Kahve Siparişi';
-                    message = '1 adet Türk kahvesi siparişi verildi. Hazırlanıyor...';
-                    break;
-                case 'yemek':
-                    title = 'Yemek Siparişi';
-                    message = '1 adet tost siparişi verildi. Hazırlanıyor...';
-                    break;
-            }
-            
-            sendNotification(title, message);
-            showStatus('Test bildirimi gönderildi: ' + type, 'success');
-        }
-        
-        function selectType(type) {
-            selectedType = type;
-            // Seçilen butonu vurgula
-            document.querySelectorAll('.btn-group button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            if (type === 'çay') {
-                document.querySelector('.tea-btn').classList.add('active');
-            } else if (type === 'kahve') {
-                document.querySelector('.coffee-btn').classList.add('active');
-            } else if (type === 'yemek') {
-                document.querySelector('.food-btn').classList.add('active');
-            }
-        }
-        
-        function addOrder() {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const details = document.getElementById('details').value;
-            
-            if (!name || !phone || !selectedType) {
-                showStatus('Lütfen isim, telefon ve sipariş türünü girin!', 'error');
-                return;
-            }
-            
-            const now = new Date();
-            const time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-            const date = now.toLocaleDateString('tr-TR');
-            
-            // Sipariş nesnesi oluştur
-            const order = {
-                id: Date.now(),
-                name,
-                phone,
-                type: selectedType,
-                details,
-                time,
-                date
-            };
-            
-            // Siparişi listeye ekle
-            addOrderToList(order);
-            
-            // Siparişleri localStorage'a kaydet
-            saveOrder(order);
-            
-            // Bildirim gönder
-            const notificationMessage = `${name} ${details || selectedType} siparişi verdi. (${phone})`;
-            sendNotification('Yeni Sipariş!', notificationMessage);
-            
-            // Formu temizle
-            document.getElementById('name').value = '';
-            document.getElementById('phone').value = '';
-            document.getElementById('details').value = '';
-            selectedType = '';
-            
-            document.querySelectorAll('.btn-group button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            showStatus('Siparişiniz gönderildi ve bildirim olarak iletildi!', 'success');
-        }
-        
-        function addOrderToList(order) {
-            const ordersList = document.getElementById('ordersList');
-            const orderItem = document.createElement('div');
-            
-            let orderClass = '';
-            let icon = '';
-            if (order.type === 'çay') {
-                orderClass = 'tea-order';
-                icon = '<i class="fas fa-mug-hot"></i>';
-            } else if (order.type === 'kahve') {
-                orderClass = 'coffee-order';
-                icon = '<i class="fas fa-coffee"></i>';
-            } else if (order.type === 'yemek') {
-                orderClass = 'food-order';
-                icon = '<i class="fas fa-utensils"></i>';
-            }
-            
-            orderItem.className = `order-item ${orderClass}`;
-            orderItem.innerHTML = `
-                <div class="order-info">
-                    <div class="order-name">${icon} ${order.name}</div>
-                    <div class="order-type">${order.details || order.type}</div>
-                    <div class="order-time">${order.date} ${order.time}</div>
-                </div>
-                <div class="order-phone">${order.phone}</div>
-            `;
-            
-            ordersList.prepend(orderItem);
-        }
-        
-        function createNotification(message, time) {
-            const notificationsContainer = document.getElementById('notifications');
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div class="notification-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">Yeni Sipariş Bildirimi!</div>
-                    <p>${message}</p>
-                    <div class="order-time">${time}</div>
-                </div>
-            `;
-            
-            notificationsContainer.prepend(notification);
-        }
-        
-        function clearNotifications() {
-            const notificationsContainer = document.getElementById('notifications');
-            notificationsContainer.innerHTML = '';
-            showStatus('Bildirim geçmişi temizlendi', 'success');
-        }
-        
-        function saveOrder(order) {
-            // localStorage'dan mevcut siparişleri al
-            let orders = JSON.parse(localStorage.getItem('orders')) || [];
-            
-            // Yeni siparişi ekle
-            orders.unshift(order);
-            
-            // En son 50 siparişi tut
-            if (orders.length > 50) {
-                orders = orders.slice(0, 50);
-            }
-            
-            // localStorage'a kaydet
-            localStorage.setItem('orders', JSON.stringify(orders));
-        }
-        
-        function loadOrders() {
-            const orders = JSON.parse(localStorage.getItem('orders')) || [];
-            const ordersList = document.getElementById('ordersList');
-            
-            // Listeyi temizle
-            ordersList.innerHTML = '';
-            
-            // Siparişleri listeye ekle
-            orders.forEach(order => {
-                addOrderToList(order);
-            });
-        }
-        
-        function addExampleOrders() {
-            const ordersList = document.getElementById('ordersList');
-            if (ordersList.children.length === 0) {
-                const examples = [
-                    {
-                        name: "Ahmet Yılmaz",
-                        phone: "5551234567",
-                        type: "çay",
-                        details: "2 adet Türk çayı",
-                        date: "26.08.2023",
-                        time: "10:30"
-                    },
-                    {
-                        name: "Ayşe Demir",
-                        phone: "5557654321",
-                        type: "kahve",
-                        details: "Türk kahvesi, orta şekerli",
-                        date: "26.08.2023",
-                        time: "11:15"
-                    },
-                    {
-                        name: "Mehmet Kaya",
-                        phone: "5559876543",
-                        type: "yemek",
-                        details: "Kaşarlı tost, ayran",
-                        date: "26.08.2023",
-                        time: "12:45"
-                    }
-                ];
-                
-                examples.forEach(order => {
-                    addOrderToList(order);
-                });
-            }
-        }
-        
-        function showStatus(message, type) {
-            // Önceki durum mesajlarını temizle
-            const existingStatus = document.querySelector('.status');
-            if (existingStatus) {
-                existingStatus.remove();
-            }
-            
-            // Yeni durum mesajı oluştur
-            const status = document.createElement('div');
-            status.className = `status ${type}`;
-            status.textContent = message;
-            
-            // Formun altına ekle
-            const form = document.querySelector('.card');
-            form.appendChild(status);
-            
-            // 5 saniye sonra kaldır
-            setTimeout(() => {
-                status.remove();
-            }, 5000);
-        }
-    </script>
+<div class="container">
+  <h1 id="website-title">Akıllı Kapı Sistemi Kontrolü</h1>
+  
+  <p>Bu arayüz, ESP32-CAM'den gelen HTTP isteklerini alan ESP8266 TTS sunucusunu test etmek için kullanılır.</p>
+  
+  <div class="status-box">
+    TTS Sunucusu: ÇALIŞIYOR (Bağlantı Kontrolü Başarılı)
+  </div>
+
+  <h2>Sesli Mesaj Testi</h2>
+  <p>Aşağıdaki metni göndererek TTS (Text-to-Speech) fonksiyonunu manuel olarak test edin.</p>
+  
+  <div class="input-group">
+    <input type="text" id="inputText" placeholder="Örn: Mehmet Bey hos geldiniz.">
+    <button onclick="sendSpeakCommand()">Gönder</button>
+  </div>
+  
+  <p><small>Not: Gönder tuşuna basmak, ESP32'nin göndereceği GET isteğinin aynısını yapar: <code>/speak?text=...</code></small></p>
+
+  <a href="https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WebServer" target="_blank">ESP8266 WebServer Dökümantasyonu</a>
+</div>
+
+<script>
+function sendSpeakCommand() {
+  var text = document.getElementById('inputText').value;
+  if (text.trim() === "") {
+    alert("Lütfen konuşulacak metni girin.");
+    return;
+  }
+  
+  // URL Encode işlemi (boşlukları %20 yapar)
+  var encodedText = encodeURIComponent(text);
+  
+  // ESP8266'ya GET isteğini gönderir.
+  // URL yapısı: http://[IP]/speak?text=mesaj
+  var url = "/speak?text=" + encodedText;
+  
+  fetch(url)
+    .then(response => {
+      if (response.ok) {
+        alert("Komut başarıyla gönderildi ve ses çalmaya başladı! (" + text + ")");
+      } else {
+        alert("HATA: Komut gönderilemedi veya sunucu hatası. Kod: " + response.status);
+      }
+    })
+    .catch(error => {
+      alert("Bağlantı hatası: ESP8266 ulaşılamıyor.");
+      console.error('Fetch error:', error);
+    });
+}
+</script>
+
 </body>
 </html>
